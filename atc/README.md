@@ -17,13 +17,15 @@ Set up
 ======
 To set up an autoscaling group and an autoscaling server, run:
 
-    ./setup/setup-autoscaling-group.sh
-    ./setup/setup-autoscaling-server.sh
+    cd setup
+    ./setup-autoscaling-group.sh
+    ./setup-autoscaling-server.sh
 
 
 To also launch a test client instance, with the TestClient AMI, run:
 
-    ./testclient/testclient-setup.sh
+    cd testclient
+    ./testclient-setup.sh
 
 *Note: a test client session needs to be manually started on the test
 client to apply load.*
