@@ -30,6 +30,10 @@ To also launch a test client instance, with the TestClient AMI, run:
 *Note: a test client session needs to be manually started on the test
 client to apply load.*
 
+*Note: Turn off the DNS resolution cache in Java by setting -Dsun.net.inetaddr.ttl=0.
+Otherwise DNS caching may cause the testclient to only apply load against one
+availability zone (and its ELB node) at a time.*
+
 
 
 Each instance is started with a separate key pair. To log into the instances

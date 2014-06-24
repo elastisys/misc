@@ -66,6 +66,11 @@ aws s3 cp --region ${region} /tmp/AtcNodeServerKey.pem ${bucket}/instancekey.pem
 echo ">>> Creating an Elastic Load Balancer ..."
 aws elb create-load-balancer --load-balancer-name ${elb_name} --listeners Protocol=${nodeserver_protocol},LoadBalancerPort=${nodeserver_port},InstanceProtocol=${nodeserver_protocol},InstancePort=${nodeserver_port} Protocol=${nodeserver_protocol},LoadBalancerPort=${nodeserver_test_port},InstanceProtocol=${nodeserver_protocol},InstancePort=${nodeserver_test_port} --availability-zones ${availability_zones}
 aws elb describe-load-balancers
+# Enable cross-zone load balancing (have each elb node route traffic to the 
+# back-end instances across all Availability Zones). 
+aws elb modify-load-balancer-attributes --load-balancer-name ${elb_name} --load-balancer-attributes '{"CrossZoneLoadBalancing": {"Enabled": true}}'
+# configure the ELB instance health checks
+aws elb configure-health-check --load-balancer-name ${elb_name} --health-check Target=TCP:${nodeserver_port},Interval=20,Timeout=5,UnhealthyThreshold=2,HealthyThreshold=2
 
 # 2. set up a Launch Configuration
 echo ">>> Creating a Launch Configuration ..."

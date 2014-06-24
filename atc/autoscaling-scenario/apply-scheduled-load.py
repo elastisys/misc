@@ -45,25 +45,21 @@ def apply_load(rate, duration, host, port):
     # arguments: <number of clients> <time interval between runs in seconds> <host> <port>
     num_clients = rate
     interval = 1
-    # To achieve <rate>: run <rate> client process each at a rate of 1 requests every second
-    testclient_cmd = ("java -jar /home/ubuntu/testclients/testclients.jar %d %d %s %d" %
-                      (1, interval, host, port))
-    log.info("running %dx: %s", num_clients, testclient_cmd)
+    # no DNS caching since that may cause bad load balancing caused by the load
+    # balancer node for a single availability zone receiving all requests.
+    # see: http://wiki.apache.org/jmeter/JMeterAndAmazon
+    javaopts = "-Dsun.net.inetaddr.ttl=0"
+    testclient_cmd = ("java %s -jar /home/ubuntu/testclients/testclients.jar %d %d %s %d" %
+                      (javaopts, num_clients, interval, host, port))
+    log.info("running: %s", testclient_cmd)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d-%H:%M:%S")
-    client_processes = []
-    logfiles = []
-    for client_num in range(num_clients):
-        logfile = "testclient-%s-%d.log" % (timestamp, client_num)
-        log.info("writing testclient%d log to: %s", client_num, logfile)
-        logfile = open(logfile, "wb")
+    logname = "testclient-%s.log" % (timestamp)
+    with open(logname, "wb") as logfile:
+        log.info("writing testclient log to: %s", logname)
         process = Popen(testclient_cmd.split(), stderr=STDOUT, stdout=logfile)
-        logfiles.append(logfile)
-        client_processes.append(process)            
-    time.sleep(duration)
-    for process in client_processes:
+        time.sleep(duration)
         process.kill()
-        logfile.close()
 
 
 def parse_rate_schedule(rate_schedule_path):

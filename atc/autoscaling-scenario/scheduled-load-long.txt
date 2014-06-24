@@ -1,13 +1,15 @@
 # ========================================
 # Client rate (req/s) | Duration (seconds)
 # ========================================
-# 2 req /s  => 120 req / min
-2   1800      
+# 4 req /s  => 240 req / min
+4   1800      
 # 6 req /s  => 360 req / min
 6   1800
 # 11 req /s => 660 req / min
 11  1800
 # 15 req /s => 900 req / min 
 15  1800
-# 3 req /s  => 180 req / min 
-3   1800
+# 8 req /s  => 480 req / min 
+8   1800
+# 2 req /s  => 120 req / min 
+2   3600
