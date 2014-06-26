@@ -103,7 +103,7 @@ if __name__ == "__main__":
         help=("The rate schedule file to apply: a "
               "list of '<rate> <duration-in-seconds>' rows"))
     parser.add_argument(
-        "--port", metavar="<PORT>", default=8810,
+        "--port", metavar="<PORT>", default=8810, type=int,
         help=("The Node Server port to apply load to. Default: 8810."))
     
     args = parser.parse_args()
