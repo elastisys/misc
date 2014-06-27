@@ -21,7 +21,7 @@ fi
 region=${AWS_DEFAULT_REGION}
 
 # Autoscaling Server parameters
-autoscaling_server_ami="ami-1fc50d68"
+autoscaling_server_ami="ami-7d5b900a"
 autoscaling_server_name="AutoscalingServer"
 autoscaler_instance_type="m1.small"
 autoscaler_security_group="AtcAutoscalingServer"
